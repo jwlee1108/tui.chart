@@ -1,8 +1,29 @@
 name: Cdn Publish
 on: [workflow_dispatch]
 jobs:
-  lint:
-    name: Check Types
+  pre-check-lint:
+    runs-on: ubuntu-latest
+    env:
+      WORKING_DIRECTORY: ./apps/chart
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Use Node.js 15.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '15.x'
+      - name: npm install
+        run: |
+          npm install
+      - name: npm install(toast.ui-chart)
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          npm install
+      - name: eslint
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          npm run lint
+  pre-check-types:
     runs-on: ubuntu-latest
     env:
       WORKING_DIRECTORY: ./apps/chart
@@ -24,3 +45,25 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
           npm run check-types
+  test:
+    runs-on: ubuntu-latest
+    env:
+      WORKING_DIRECTORY: ./apps/chart
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Use Node.js 15.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '15.x'
+      - name: npm install
+        run: |
+          npm install
+      - name: npm install(toast.ui-chart)
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          npm install
+      - name: test
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          npm run test
