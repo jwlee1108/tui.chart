@@ -1,7 +1,7 @@
 {
-  "name": "@toast-ui/vue-chart",
-  "version": "4.4.0",
-  "description": "TOAST UI Chart for Vue",
+  "name": "jwlee.test.vue.chart",
+  "version": "0.0.1",
+  "description": "",
   "main": "dist/toastui-vue-chart.js",
   "files": [
     "dist",
