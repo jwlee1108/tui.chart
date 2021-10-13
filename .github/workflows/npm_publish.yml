@@ -126,9 +126,9 @@ jobs:
           git push origin v${{ steps.check.outputs.committed-version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      - name: Npm Publish(chart)
-#        working-directory: ./apps/chart
-#        run: |
-#          npm publish
-#        env:
-#          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+      - name: npm publish (chart)
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
