@@ -128,9 +128,7 @@ jobs:
           mv apps/chart/_${{ steps.check.outputs.committed-version }} ${{ steps.check.outputs.committed-version }}
           mv apps/chart/_latest ./latest
           rm -rf apps/chart/tmpdoc
-          git checkout -- apps/chart/types/index.d.ts package-lock.json
-          git add ${{ steps.check.outputs.committed-version }}/dist -f
-          git add latest/dist -f
+          git add .
           git stash --include-untracked
       - name: checkout gh-pages
         uses: actions/checkout@v2
