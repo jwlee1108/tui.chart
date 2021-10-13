@@ -120,8 +120,11 @@ jobs:
         run: |
           npm run build
       - name: run doc
+        working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
-          npm run doc
+          npm run doc       
+      - name: move docs
+        run: |
           mv apps/chart/_${{ steps.check.outputs.committed-version }} ${{ steps.check.outputs.committed-version }}
           mv apps/chart/_latest ./latest
           rm -rf apps/chart/tmpdoc
