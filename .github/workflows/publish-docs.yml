@@ -123,20 +123,29 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
           npm run doc
-          git config --local user.email "jw.lee@nhn.com"
-          git config --local user.name "jwlee1108"
+          mv apps/chart/_${{ steps.check.outputs.committed-version }} ${{ steps.check.outputs.committed-version }}
+          mv apps/chart/_latest latest
+          rm -rf apps/chart/tmpdoc
+          git checkout -- apps/chart/types/index.d.ts package-lock.json
+          git add ${{ steps.check.outputs.committed-version }}/dist -f
+          git add latest/dist -f
+          git stash --include-untracked
+      - name: checkout gh-pages
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+      - name: Commit files
+        run: |
+          git config --local user.email 'jw.lee@nhn.com'
+          git config --local user.name 'jwlee1108'
+          rm -rf ${{ steps.check.outputs.committed-version }}
           rm -rf latest
-          rm -rf ${{ steps.version.outputs.committed-version }}
-          mv _${{ steps.version.outputs.committed-version }} ${{ steps.version.outputs.committed-version }}
-          mv -i _latest latest
           git add .
-          git commit -m "${{ steps.version.outputs.committed-version }}"
+          git stash pop
+          git add .
+          git commit -m '${{ steps.check.outputs.committed-version }}'
       - name: push
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ inputs.GITHUB_TOKEN }}
           branch: gh-pages
-      - name: checkout branch
-        uses: actions/checkout@v2
-        with:
-          ref: main
