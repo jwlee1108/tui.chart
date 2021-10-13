@@ -136,7 +136,7 @@ jobs:
           git add .
           git commit -m '${{ steps.check.outputs.committed-version }}'
       - name: push
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ inputs.GITHUB_TOKEN }}
-          branch: gh-pages
+        run: |
+          git push origin gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
