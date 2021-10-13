@@ -93,8 +93,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lint, types, test]
     steps:
-      - uses: actions/checkout@v2
-      - name: Check the package version
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Check package version
         id: check
         uses: PostHog/check-package-version@v2
         with:
