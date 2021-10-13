@@ -1,10 +1,10 @@
 name: Npm Publish
 on: [workflow_dispatch]
+env:
+  WORKING_DIRECTORY: ./apps/chart
 jobs:
   lint:
     runs-on: ubuntu-latest
-    env:
-      WORKING_DIRECTORY: ./apps/chart
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
@@ -15,7 +15,7 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: npm install(toast.ui-chart)
+      - name: npm install (toast.ui-chart)
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
           npm install
@@ -37,7 +37,7 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: npm install(toast.ui-chart)
+      - name: npm install (toast.ui-chart)
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
           npm install
@@ -59,7 +59,7 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: npm install(toast.ui-chart)
+      - name: npm install (toast.ui-chart)
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
           npm install
@@ -67,41 +67,27 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
           npm run test
-
-  publish:
-    runs-on: ubuntu-latest
+          
+  check-version:
+    name: Check package version
     needs: [lint, types, test]
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Check the package version
-        id: check
-        uses: PostHog/check-package-version@v2
-        with:
-          path: ./apps/chart
+      - name: Checkout branch
+        uses: actions/checkout@v2
       - name: Use Node.js 15.x
         uses: actions/setup-node@v1
         with:
           node-version: '15.x'
           registry-url: https://registry.npmjs.org/
-      - name: Install
-        run: |
-          npm install
-      - name: Build
-        run: |
-          npm run build
-      - name: Create Tag
-        run: |
-          git config --local user.email 'jw.lee@nhn.com'
-          git config --local user.name 'jwlee1108'
-          git tag v${{ steps.check.outputs.committed-version }}
-      - name: Push Tag
-        run: |
-          git push origin v${{ steps.check.outputs.committed-version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Npm Publish(chart)
-        working-directory: ./apps/chart
-        run: |
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+      - name: Check package version
+        id: check
+        uses: PostHog/check-package-version@v2
+        with:
+          path: ${{ env.WORKING_DIRECTORY }}/
+      - name: Log when unchanged
+        if: steps.check.outputs.is-new-version == 'false'
+        run: 'echo "No version change"'
+      - name: Cancel Workflow
+        if: steps.check.outputs.is-new-version == 'false'
+        uses: andymckay/cancel-action@0.2
