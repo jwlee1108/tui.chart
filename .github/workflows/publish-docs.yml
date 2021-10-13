@@ -127,7 +127,6 @@ jobs:
           git config --local user.name "jwlee1108"
           rm -rf latest
           rm -rf ${{ steps.version.outputs.committed-version }}
-          git stash pop
           mv _${{ steps.version.outputs.committed-version }} ${{ steps.version.outputs.committed-version }}
           mv -i _latest latest
           git add .
