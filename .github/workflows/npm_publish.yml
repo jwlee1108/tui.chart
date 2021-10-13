@@ -98,10 +98,15 @@ jobs:
         with:
           node-version: '15.x'
           registry-url: https://registry.npmjs.org/
-      - name: Install
+      - name: npm install
         run: |
           npm install
-      - name: Build
+      - name: npm install (toast.ui-chart)
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          npm install
+      - name: build
+        working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
           npm run build
 #      - name: Create Tag
