@@ -123,7 +123,7 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
           npm run doc 
-          mv _${{ steps.version.outputs.committed-version }} ../../_${{ steps.version.outputs.committed-version }}
+          mv _${{ steps.check.outputs.committed-version }} ../../_${{ steps.check.outputs.committed-version }}
           mv -i _latest ../../_latest
           rm -rf tmpdoc
           git stash --include-untracked
