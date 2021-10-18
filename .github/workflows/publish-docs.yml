@@ -125,6 +125,7 @@ jobs:
         run: |
           npm run doc
           git stash --include-untracked
+          git pull origin main
           git remote update
           git fetch
           git checkout gh-pages
