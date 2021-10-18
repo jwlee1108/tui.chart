@@ -1,4 +1,4 @@
-name: publish
+name: publish wrapper
 on: [workflow_dispatch]
 env:
   WORKING_DIRECTORY: ./apps/chart
