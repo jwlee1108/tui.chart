@@ -1,6 +1,7 @@
 name: publish documents
 on: [workflow_dispatch]
 env:
+  ROOT_DIRECTORY: ./
   WORKING_DIRECTORY: ./apps/chart
 
 jobs:
@@ -132,6 +133,7 @@ jobs:
         with:
           ref: gh-pages
       - name: commit files
+        working-directory: ${{ env.ROOT_DIRECTORY }}
         run: |
           git config --local user.email 'jw.lee@nhn.com'
           git config --local user.name 'jwlee1108'
