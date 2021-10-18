@@ -135,8 +135,6 @@ jobs:
           git config --local user.name 'jwlee1108'
           git add .
           git commit -m '${{ steps.check.outputs.committed-version }}'
-      - name: push
-        run: |
           git push origin gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
