@@ -124,13 +124,13 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
           npm run doc 
+          git remote update
+          git fetch
+          git checkout gh-pages
           mv _${{ steps.check.outputs.committed-version }} ../../_${{ steps.check.outputs.committed-version }}
           mv -i _latest ../../_latest
           rm -rf tmpdoc
           cd ../../
-          git remote update
-          git fetch
-          git checkout gh-pages
           rm -rf latest
           rm -rf ${{ steps.version.outputs.committed-version }}
           mv _${{ steps.check.outputs.committed-version }} ${{ steps.check.outputs.committed-version }}
