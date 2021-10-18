@@ -127,8 +127,8 @@ jobs:
           mv _${{ steps.check.outputs.committed-version }} ../../_${{ steps.check.outputs.committed-version }}
           mv -i _latest ../../_latest
           rm -rf tmpdoc
-          git checkout -- package-lock.json
           git stash --include-untracked
+        shell: bash
       - name: checkout gh-pages
         uses: actions/checkout@v2
         with:
