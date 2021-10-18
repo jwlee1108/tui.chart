@@ -123,10 +123,12 @@ jobs:
       - name: run doc
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
-          npm run doc 
+          npm run doc
+          git stash --include-untracked
           git remote update
           git fetch
           git checkout gh-pages
+          git stash pop
           mv _${{ steps.check.outputs.committed-version }} ../../_${{ steps.check.outputs.committed-version }}
           mv -i _latest ../../_latest
           rm -rf tmpdoc
