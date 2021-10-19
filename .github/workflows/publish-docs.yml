@@ -126,6 +126,7 @@ jobs:
           npm run doc
           mv _${{ steps.check.outputs.committed-version }} ../../_${{ steps.check.outputs.committed-version }}
           mv -i _latest ../../_latest
+          git checkout -- package-lock.json
           git checkout -- ../../package-lock.json
           git remote update
           git fetch
