@@ -138,7 +138,7 @@ jobs:
           mv -i _latest latest
           git config --local user.email "jw.lee@nhn.com"
           git config --local user.name "jwlee1108"
-          git add ${{ teps.check.outputs.committed-version }}
+          git add ${{ steps.check.outputs.committed-version }}
           git add latest
           git commit -m '${{ steps.check.outputs.committed-version }}'
           git push origin gh-pages
