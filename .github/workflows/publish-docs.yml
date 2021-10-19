@@ -124,21 +124,18 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
           npm run doc
-          git stash --include-untracked
-          git remote update
-          git fetch
-          git pull origin main
-          git checkout gh-pages
-          git stash pop
           mv _${{ steps.check.outputs.committed-version }} ../../_${{ steps.check.outputs.committed-version }}
           mv -i _latest ../../_latest
-          rm -rf tmpdoc
+          git remote update
+          git fetch
+          git checkout gh-pages
           cd ../../
           rm -rf latest
           rm -rf ${{ steps.version.outputs.committed-version }}
           mv _${{ steps.check.outputs.committed-version }} ${{ steps.check.outputs.committed-version }}
           mv -i _latest latest
-          git add .
+          git add ${{ steps.version.outputs.committed-version }}
+          git add latest
           git commit -m '${{ steps.check.outputs.committed-version }}'
         shell: bash
       - name: Push changes
