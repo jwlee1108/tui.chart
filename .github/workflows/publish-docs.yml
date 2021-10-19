@@ -141,9 +141,8 @@ jobs:
           git add ${{ steps.version.outputs.committed-version }}
           git add latest
           git commit -m '${{ steps.check.outputs.committed-version }}'
+          git push origin gh-pages
         shell: bash
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ inputs.GITHUB_TOKEN }}
-          branch: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
